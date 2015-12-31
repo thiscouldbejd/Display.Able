@@ -1,0 +1,8 @@
+{
+  "Google_Source": {
+    "Value": "<ID OF SPREADSHEET>"
+  },
+  "Connectivity_Timeout": {
+    "Value": 30
+  }
+}

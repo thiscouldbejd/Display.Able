@@ -1,0 +1,16 @@
+{
+	"type": "object",
+	"properties": {
+    "Google_Source": {
+      "title": "ID of Source Google Spreadsheet",
+      "description": "This is the ID of the Data Spreadsheet (which should contain columns headed: IP, URL & Refresh (others are permitted!).",
+      "type": "string"
+    },
+		"Connectivity_Timeout": {
+			"title": "Ammount of time to display Connectivity Page",
+      "description": "This is the number of seconds to display the connectivity page for, before moving to Display Mode (default if undefined is 30).",
+      "type": "integer",
+			"default": 30
+		}
+	}
+}

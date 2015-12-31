@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Display.Able",
+    "description": "Extension name."
+  },
+  "extensionShortName": {
+    "message": "Display.Able",
+    "description": "Extension short-name."
+  },
+  "extensionDescription": {
+    "message": "Display.Able, a simple display screen app for Chrome.",
+    "description": "Extension description."
+  }
+}
