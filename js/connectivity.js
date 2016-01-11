@@ -4,6 +4,10 @@ $(function() {
 
   displayIPAddresses();
 
+  $(document).bind("keypress", "d", function () {
+		gBackgroundPage.reTry().bind(gBackgroundPage);
+  });
+
   $(document).bind("keypress", "o", function () {
 		gBackgroundPage.showOptions().bind(gBackgroundPage);
   });

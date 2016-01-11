@@ -99,6 +99,8 @@ BackgroundPage.prototype.reTry = function() {
 }
 BackgroundPage.prototype.showOptions = function() {
 	
+	chrome.app.window.create("options.html", {id : "options"}, this.handleOptionsWindowCreated.bind(this));
+	
 	// Close Display Window (if open)
 	if (this.displayWindow) this.displayWindow.close();
 	this.displayWindow = null;
@@ -106,8 +108,7 @@ BackgroundPage.prototype.showOptions = function() {
 	// Close Connectivity Window (if open)
 	if (this.connectivityWindow) this.connectivityWindow.close();
 	this.connectivityWindow = null;
-	
-	chrome.app.window.create("options.html", {id : "options"}, this.handleOptionsWindowCreated.bind(this));
+
 }
 // -- General Functions --
 
