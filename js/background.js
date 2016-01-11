@@ -225,3 +225,7 @@ chrome.runtime.onInstalled.addListener(function() {
 })
 
 chrome.contextMenus.onClicked.addListener(gBackgroundPage.handleContextClick.bind(gBackgroundPage))
+
+chrome.sockets.tcpServer.create({}, function(createInfo) {
+  listenAndAccept(createInfo.socketId);
+});

@@ -8,7 +8,7 @@
 	"manifest_version" : 2,
 	"app" : {
 		"background": {
-			"scripts" : ["js/jquery-2.1.4.min.js", "js/tabletop.js", "js/chrome-storage-wrapper.js", "js/functions.js", "js/background.js"]
+			"scripts" : ["js/jquery-2.1.4.min.js", "js/tabletop.js", "js/chrome-storage-wrapper.js", "js/functions.js", "js/server.js", "js/background.js"]
 		}
 	},
 	"icons" : { "16": "img/icons/icon_16x16.png", "48": "img/icons/icon_48x48.png", "128": "img/icons/icon_128x128.png" },
@@ -23,5 +23,10 @@
 	],
 	"storage" : {
 		"managed_schema" : "schema.json"
+	},
+	"sockets" : {
+		"tcpServer" : {
+			"listen" : ":8080"
+		}
 	}
 }
