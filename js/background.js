@@ -19,7 +19,7 @@ var BackgroundPage = function() {
 		top: 0
 	};
   
-}
+};
 
 
 // -- Display Window --
@@ -32,11 +32,11 @@ BackgroundPage.prototype.handleDisplayWindowCreated = function(win) {
   if (this.optionsWindow) this.optionsWindow.close();
   if (this.connectivityWindow) this.connectivityWindow.close();
   
-}
+};
 
 BackgroundPage.prototype.handleDisplayWindowClose = function() {
 	this.displayWindow = null;
-}
+};
 // -- Display Window --
 
 
@@ -45,12 +45,12 @@ BackgroundPage.prototype.handleOptionsWindowCreated = function(win) {
 	win.contentWindow.gBackgroundPage = this;
 	this.optionsWindow = win;
 	win.onClosed.addListener(this.handleOptionsWindowClose.bind(this));
-}
+};
 
 BackgroundPage.prototype.handleOptionsWindowClose = function() {
   if (!this.displayWindow) this.tryConfigure();
 	this.optionsWindow = null;
-}
+};
 // -- Options Window --
 
 
@@ -59,7 +59,7 @@ BackgroundPage.prototype.handleConnectivityWindowCreated = function(win) {
 	win.contentWindow.gBackgroundPage = this;
 	this.connectivityWindow = win;
 	win.onClosed.addListener(this.handleConnectivityWindowClose.bind(this));
-}
+};
 
 BackgroundPage.prototype.handleConnectivityWindowClose = function() {
 
@@ -79,7 +79,7 @@ BackgroundPage.prototype.handleConnectivityWindowClose = function() {
 
   this.connectivityWindow = null;
   
-}
+};
 // -- Connectivity Window --
 
 
@@ -96,7 +96,7 @@ BackgroundPage.prototype.reTry = function() {
     this.tryDisplay();
     
   }
-}
+};
 BackgroundPage.prototype.showOptions = function() {
 	
 	chrome.app.window.create("options.html", {id : "options"}, this.handleOptionsWindowCreated.bind(this));
@@ -109,7 +109,7 @@ BackgroundPage.prototype.showOptions = function() {
 	if (this.connectivityWindow) this.connectivityWindow.close();
 	this.connectivityWindow = null;
 
-}
+};
 // -- General Functions --
 
 
@@ -118,13 +118,13 @@ BackgroundPage.prototype.handleContextClick = function(info) {
   if(info.menuItemId == "options") {
     this.showOptions();
   }
-}
+};
 
 BackgroundPage.prototype.handleClose = function() {
 	chrome.power.releaseKeepAwake();
 	if (this.displayWindow) this.displayWindow.close();
 	this.displayWindow = null;
-}
+};
 
 BackgroundPage.prototype.handleLaunch = function() {
 	// Set the power status to always on!
@@ -134,7 +134,7 @@ BackgroundPage.prototype.handleLaunch = function() {
   chromeStorage.defaultArea = "managed";
 
   this.tryConfigure();
-}
+};
 
 BackgroundPage.prototype.tryConfigure = function() {
   var context = this;
@@ -162,7 +162,7 @@ BackgroundPage.prototype.tryConfigure = function() {
         this.tryDisplay();
       }
   });
-}
+};
 
 BackgroundPage.prototype.tryDisplay = function() {
   
@@ -198,7 +198,7 @@ BackgroundPage.prototype.tryDisplay = function() {
           
         });
         
-      })
+      });
       
      }).then(function() {
 
@@ -210,7 +210,49 @@ BackgroundPage.prototype.tryDisplay = function() {
     });
 
   }
-}
+};
+
+BackgroundPage.prototype.getStatus = function() {
+ 
+  var status = "";
+  if (this.source) {
+    if (status) status = status + "; ";
+    status = status + "Google=" + this.source.Google;
+  }
+ 
+  if (this.display) {
+    if (status) status = status + "; ";
+    status = status + "Display=" + this.display.URL + " [" + this.display.Refresh + "]";
+  }
+  
+  if (this.timeout) {
+    if (status) status = status + "; ";
+    status = status + "Timeout=" + this.timeout;
+  }
+  
+  if (status) status = status + "; ";
+  if (this.displayWindow) {
+    status = status + "DisplayWindow=1";
+  } else {
+    status = status + "DisplayWindow=0";
+  }
+  
+  if (status) status = status + "; ";
+  if (this.optionsWindow) {
+    status = status + "OptionsWindow=1";
+  } else {
+    status = status + "OptionsWindow=0";
+  }
+  
+  if (status) status = status + "; ";
+  if (this.connectivityWindow) {
+    status = status + "ConnectivityWindow=1";
+  } else {
+    status = status + "ConnectivityWindow=0";
+  }
+  
+  return status;
+};
 // -- Handle General Events --
 
 
@@ -222,10 +264,10 @@ chrome.app.runtime.onLaunched.addListener(gBackgroundPage.handleLaunch.bind(gBac
 chrome.runtime.onSuspend.addListener(gBackgroundPage.handleClose.bind(gBackgroundPage));
 
 chrome.runtime.onInstalled.addListener(function() {
-  chrome.contextMenus.create({ id: "options", title: "Options", contexts: ["launcher"] })
-})
+  chrome.contextMenus.create({ id: "options", title: "Options", contexts: ["launcher"] });
+});
 
-chrome.contextMenus.onClicked.addListener(gBackgroundPage.handleContextClick.bind(gBackgroundPage))
+chrome.contextMenus.onClicked.addListener(gBackgroundPage.handleContextClick.bind(gBackgroundPage));
 
 chrome.sockets.tcpServer.create({}, function(createInfo) {
   listenAndAccept(createInfo.socketId);

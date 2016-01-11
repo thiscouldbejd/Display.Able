@@ -38,6 +38,8 @@ function onAccept(info) {
 			chrome.runtime.restart();
 		} else if (command.localeCompare("reload") === 0 || command.localeCompare("go") === 0) {
 			chrome.runtime.reload();
+		} else if (command.localeCompare("status") === 0 || command.localeCompare("stat") === 0) {
+		  chrome.sockets.tcp.send(info.clientSocketId, str2ab(gBackgroundPage.getStatus()), function(resultCode) {});
 		}
   });
   
