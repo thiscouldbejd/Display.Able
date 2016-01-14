@@ -32,9 +32,15 @@ function displayIPAddresses() {
         ).append(
           $("<span />", {class : "lighter", text : "/" + interface.prefixLength})
         )).appendTo(container);
-    })
+    });
     container.appendTo("body");
-
+    
+    $("<div />", {
+        class : "version"
+      }).append(
+          $("<span />", {class : "lighter", text : "v" + chrome.runtime.getManifest().version}
+      )).appendTo("body");
+    
     if (gBackgroundPage.timeout)
       setTimeout(gBackgroundPage.reTry.bind(gBackgroundPage), gBackgroundPage.timeout * 1000);
 

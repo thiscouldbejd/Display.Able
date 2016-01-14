@@ -18,6 +18,9 @@ var BackgroundPage = function() {
 		left: 0,
 		top: 0
 	};
+	
+	// -- Death Flag --
+	this.awaitingDeath = false;
   
 };
 
@@ -48,8 +51,14 @@ BackgroundPage.prototype.handleOptionsWindowCreated = function(win) {
 };
 
 BackgroundPage.prototype.handleOptionsWindowClose = function() {
-  if (!this.displayWindow) this.tryConfigure();
-	this.optionsWindow = null;
+  
+  if (!this.awaitingDeath)  {
+   
+      if (!this.displayWindow) this.tryConfigure();
+	    this.optionsWindow = null;
+	
+  }
+
 };
 // -- Options Window --
 
@@ -63,22 +72,25 @@ BackgroundPage.prototype.handleConnectivityWindowCreated = function(win) {
 
 BackgroundPage.prototype.handleConnectivityWindowClose = function() {
 
-  if (!this.displayWindow) {
-    if (this.display) {
-
-      // Hand over to the Display Window
-      chrome.app.window.create("display.html", 
-        {frame : "none", id : "display", bounds: this.fullScreenBounds}, this.handleDisplayWindowCreated.bind(this));
-
-    } else {
-
-      this.tryDisplay();
-
-    }
-  }
-
-  this.connectivityWindow = null;
+  if (!this.awaitingDeath) {
   
+    if (!this.displayWindow) {
+      if (this.display) {
+  
+        // Hand over to the Display Window
+        chrome.app.window.create("display.html", 
+          {frame : "none", id : "display", bounds: this.fullScreenBounds}, this.handleDisplayWindowCreated.bind(this));
+  
+      } else {
+  
+        this.tryDisplay();
+  
+      }
+    }
+  
+    this.connectivityWindow = null;
+  
+  }
 };
 // -- Connectivity Window --
 
@@ -97,6 +109,7 @@ BackgroundPage.prototype.reTry = function() {
     
   }
 };
+
 BackgroundPage.prototype.showOptions = function() {
 	
 	chrome.app.window.create("options.html", {id : "options"}, this.handleOptionsWindowCreated.bind(this));
@@ -212,6 +225,16 @@ BackgroundPage.prototype.tryDisplay = function() {
   }
 };
 
+BackgroundPage.prototype.die = function() {
+  var context = this;
+  
+  context.awaitingDeath = true;
+  if (context.displayWindow) context.displayWindow.close();
+  if (context.optionsWindow) context.optionsWindow.close();
+  if (context.connectivityWindow) context.connectivityWindow.close();
+  
+};
+
 BackgroundPage.prototype.getStatus = function() {
  
   var status = "";
@@ -253,6 +276,7 @@ BackgroundPage.prototype.getStatus = function() {
   
   return status;
 };
+
 // -- Handle General Events --
 
 

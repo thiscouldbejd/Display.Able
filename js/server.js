@@ -5,7 +5,7 @@ function listenAndAccept(socketId) {
 					if (interface.address.indexOf(".") >= 0) {
 						chrome.sockets.tcpServer.listen(socketId,
 							interface.address, 1234, function(resultCode) {
-								onListenCallback(socketId, resultCode)
+								onListenCallback(socketId, resultCode);
 						});
 						return false;
 					}
@@ -38,8 +38,14 @@ function onAccept(info) {
 			chrome.runtime.restart();
 		} else if (command.localeCompare("reload") === 0 || command.localeCompare("go") === 0) {
 			chrome.runtime.reload();
+		} else if (command.localeCompare("die") === 0) {
+			gBackgroundPage.die();
 		} else if (command.localeCompare("status") === 0 || command.localeCompare("stat") === 0) {
 		  chrome.sockets.tcp.send(info.clientSocketId, str2ab(gBackgroundPage.getStatus()), function(resultCode) {});
+		} else if (command.indexOf("===") > -1 && command.split("===")[0].localeCompare("serial") === 0) {
+		  talkToSerial(command.split("===")[1], info.clientSocketId);
+		} else if (command.indexOf("===") > -1 && command.split("===")[0].localeCompare("serialhex") === 0) {
+		  talkToSerialHex(command.split("===")[1], info.clientSocketId);
 		}
   });
   

@@ -15,7 +15,7 @@ It is licensed under version 2.0 of the Apache License and contains code (thanks
 |---|---|---|---|
 |google.css||Copyright 2015 Google Inc. All Rights Reserved.|Apache License, Version 2.0|
 |chrome-storage-wrapper.js|[Github Repo](https://github.com/lmk123/chrome-storage-wrapper)|Copyright 2015 Milk Lee.|MIT License|
-|jquery-2.1.4.min.js|[Website](http://jquery.org)|Copyright 2005, 2015 jQuery Foundation, Inc.|MIT License|
+|jquery-2.2.0.min.js|[Website](http://jquery.org)|Copyright 2005, 2016 jQuery Foundation, Inc.|MIT License|
 |tabletop.js|[Github Repo](https://github.com/jsoma/tabletop)|Copyright 2012-2013 Jonathan Soma|MIT License|
 
 All else, __Copyright JD, 2015__.
